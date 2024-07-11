@@ -27,7 +27,9 @@ export default function APIsCandidate({ initialAPIs = [], disabled = false }) {
 
   return (
     <FormControl component="fieldset" margin="normal" disabled={disabled}>
-      <FormLabel component="legend">APIs</FormLabel>
+      <FormLabel component="legend" color="secondary">
+        APIs
+      </FormLabel>
       <FormGroup>
         {["RESTful", "GraphQL", "gRPC", "WebSockets", "SOAP", "JSON-RPC"].map(
           (api) => (
@@ -35,6 +37,7 @@ export default function APIsCandidate({ initialAPIs = [], disabled = false }) {
               key={api}
               control={
                 <Checkbox
+                  color="secondary"
                   value={api}
                   checked={apis.includes(api)}
                   onChange={handleChange}

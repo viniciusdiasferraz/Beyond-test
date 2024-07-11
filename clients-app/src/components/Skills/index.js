@@ -11,8 +11,7 @@ import { useApiContext } from "../../context/context";
 
 export default function Skills({ initialSkills = [], disabled = false }) {
   const { handleCheckboxChange } = useApi();
-  const { skills: contextSkills, setSkills: setContextSkills } = useApiContext();
-  const [skills, setSkills] = useState(contextSkills || []);
+  const { skills, setSkills } = useApiContext();
 
   useEffect(() => {
     if (initialSkills.length > 0) {
@@ -28,7 +27,9 @@ export default function Skills({ initialSkills = [], disabled = false }) {
 
   return (
     <FormControl component="fieldset" margin="normal" disabled={disabled}>
-      <FormLabel component="legend">Skills</FormLabel>
+      <FormLabel component="legend" color="secondary">
+        Skills
+      </FormLabel>
       <FormGroup>
         {["React", "Typescript", "CSS", "Javascript", "HTML", "Vue"].map(
           (skill) => (
@@ -36,6 +37,7 @@ export default function Skills({ initialSkills = [], disabled = false }) {
               key={skill}
               control={
                 <Checkbox
+                  color="secondary"
                   value={skill}
                   checked={skills.includes(skill)}
                   onChange={handleChange}

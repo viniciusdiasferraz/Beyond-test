@@ -93,8 +93,10 @@ export default function Modal() {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Fechar</Button>
-        <Button onClick={() => handleDelete(selectUser)}>
+        <Button onClick={handleClose} color="secondary">
+          Fechar
+        </Button>
+        <Button onClick={() => handleDelete(selectUser)} color="secondary">
           Excluir Candidato
         </Button>
       </DialogActions>

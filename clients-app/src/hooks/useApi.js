@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import {
   getCandidates,
   saveCandidate,
@@ -28,7 +28,7 @@ const useApi = () => {
     setName,
   } = useApiContext();
 
-  const clear = useCallback(() => {
+  const clear = () => {
     setExperience([]);
     setSkills([]);
     setApis([]);
@@ -36,14 +36,7 @@ const useApi = () => {
     setTestingTools([]);
     setSelectUser({});
     setName("");
-  }, [
-    setApis,
-    setExperience,
-    setSelectUser,
-    setSkills,
-    setTestingTools,
-    setVersionControl,
-  ]);
+  };
 
   const handleClickOpen = useCallback(
     (user) => {
@@ -86,12 +79,6 @@ const useApi = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (users && users.length === 0) {
-      allCandidates();
-    }
-  }, [users]);
 
   const handleSubmit = useCallback(
     async (event) => {
@@ -149,6 +136,7 @@ const useApi = () => {
     handleClose,
     handleClickOpen,
     handleCheckboxChange,
+    allCandidates,
   };
 };
 

@@ -25,6 +25,7 @@ export default function FormCandidate() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             fullWidth
+            color="secondary"
             margin="normal"
             InputLabelProps={{
               shrink: true,
@@ -38,6 +39,7 @@ export default function FormCandidate() {
             value={experience}
             onChange={(e) => setExperience(e.target.value)}
             fullWidth
+            color="secondary"
             margin="normal"
             InputLabelProps={{
               shrink: true,
@@ -57,7 +59,7 @@ export default function FormCandidate() {
           <TestingTools />
         </Grid>
         <Grid item xs={12}>
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+          <Button type="submit" variant="contained" color="secondary" fullWidth>
             Adicionar
           </Button>
         </Grid>

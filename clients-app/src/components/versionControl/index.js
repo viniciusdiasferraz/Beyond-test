@@ -30,20 +30,23 @@ export default function VersionControl({
 
   return (
     <FormControl component="fieldset" margin="normal" disabled={disabled}>
-      <FormLabel component="legend">Controle de Versão</FormLabel>
+      <FormLabel component="legend" color="secondary">
+        Controle de Versão
+      </FormLabel>
       <FormGroup>
-        {["Git", "SVN", "Mercurial", "Perforce"].map((vc) => (
+        {["Git", "SVN", "Mercurial", "Perforce"].map((version) => (
           <FormControlLabel
-            key={vc}
+            color="secondary"
+            key={version}
             control={
               <Checkbox
-                value={vc}
-                checked={versionControl.includes(vc)}
+                value={version}
+                checked={versionControl.includes(version)}
                 onChange={handleChange}
                 disabled={disabled}
               />
             }
-            label={vc}
+            label={version}
           />
         ))}
       </FormGroup>

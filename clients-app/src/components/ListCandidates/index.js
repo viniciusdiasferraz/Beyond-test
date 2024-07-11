@@ -7,15 +7,21 @@ export default function ListCandidates() {
   const { users } = useApiContext();
   return (
     <div
-      style={{ marginTop: "1rem", display: "flex", flexDirection: "column", alignItems:"center" }}
+      style={{
+        marginTop: "1rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
     >
       {users.map((user) => (
         <Button
+          color="secondary"
           onClick={() => {
             handleClickOpen(user);
           }}
           key={user.id}
-          style={{ margin: "0.5rem 0", width:"50%", height:"5vh" }}
+          style={{ margin: "0.5rem 0", width: "50%", height: "5vh" }}
         >
           <Typography variant="body1" style={{ color: "black" }}>
             {user.name}

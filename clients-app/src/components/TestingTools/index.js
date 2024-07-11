@@ -30,7 +30,9 @@ export default function TestingTools({
 
   return (
     <FormControl component="fieldset" margin="normal" disabled={disabled}>
-      <FormLabel component="legend">Ferramentas de Teste</FormLabel>
+      <FormLabel component="legend" color="secondary">
+        Ferramentas de Teste
+      </FormLabel>
       <FormGroup>
         {[
           "Jest",
@@ -45,6 +47,7 @@ export default function TestingTools({
             key={tool}
             control={
               <Checkbox
+                color="secondary"
                 value={tool}
                 checked={testingTools.includes(tool)}
                 onChange={handleChange}
