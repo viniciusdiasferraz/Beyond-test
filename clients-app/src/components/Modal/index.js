@@ -11,7 +11,7 @@ import {
 import useApi from "../../hooks/useApi";
 import { useApiContext } from "../../context/context";
 import Skills from "../Skills/index";
-import APIsCandidate from "../APIsCadidate/index";
+import APIsCandidate from "../APIsCandidate/index";
 import VersionControl from "../versionControl/index";
 import TestingTools from "../TestingTools/index";
 

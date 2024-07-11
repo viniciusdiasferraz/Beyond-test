@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   FormControl,
   FormControlLabel,
@@ -17,7 +17,7 @@ export default function Skills({ initialSkills = [], disabled = false }) {
     if (initialSkills.length > 0) {
       setSkills(initialSkills);
     }
-  }, [initialSkills]);
+  }, [initialSkills, setSkills]);
 
   const handleChange = (event) => {
     if (!disabled) {
@@ -39,7 +39,7 @@ export default function Skills({ initialSkills = [], disabled = false }) {
                 <Checkbox
                   color="secondary"
                   value={skill}
-                  checked={skills.includes(skill)}
+                  checked={skills?.includes(skill)}
                   onChange={handleChange}
                   disabled={disabled}
                 />

@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField, Button, Grid } from "@mui/material";
 import Skills from "../Skills/index";
-import APIsCandidate from "../APIsCadidate/index";
+import APIsCandidate from "../APIsCandidate/index";
 import VersionControl from "../versionControl/index";
 import TestingTools from "../TestingTools/index";
 import useApi from "../../hooks/useApi";

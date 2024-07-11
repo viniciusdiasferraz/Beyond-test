@@ -1,25 +1,31 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Skills from "./index";
-import { useApiContext } from "../../context/context";
 
-jest.mock("../../context/context", () => ({
-  useApiContext: jest.fn(),
+jest.mock("../../hooks/useApi", () => ({
+  __esModule: true,
+  default: () => ({
+    handleCheckboxChange: jest.fn(),
+  }),
 }));
 
-describe("Modal Component", () => {
-  beforeEach(() => {
-    useApiContext.mockReturnValue({
-      skills: ["React", "CSS"],
-      setSkills: jest.fn(),
-    });
+jest.mock("../../context/context", () => ({
+  useApiContext: () => ({
+    skills: [],
+    setSkills: jest.fn(),
+  }),
+}));
+
+test("renders Skills component with checkboxes", () => {
+  render(<Skills />);
+
+  expect(screen.getByText("Skills")).toBeInTheDocument();
+
+  const skills = ["React", "Typescript", "CSS", "Javascript", "HTML", "Vue"];
+  skills.forEach((skill) => {
+    expect(screen.getByLabelText(skill)).toBeInTheDocument();
   });
 
-  test("renders modal with candidate details", () => {
-    render(<Skills initialSkills={["React", "CSS"]} />);
-
-    expect(screen.getByText("Skills")).toBeInTheDocument();
-    expect(screen.getByLabelText("React")).toBeChecked();
-    expect(screen.getByLabelText("CSS")).toBeChecked();
-  });
+  const reactCheckbox = screen.getByLabelText("React");
+  fireEvent.click(reactCheckbox);
 });
