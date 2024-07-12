@@ -3,6 +3,7 @@ import {
   getCandidates,
   saveCandidate,
   deleteCandidate,
+  editCandidate,
 } from "../service/allFetch";
 import { useApiContext } from "../context/context";
 
@@ -12,7 +13,10 @@ const useApi = () => {
     name,
     experience,
     skills,
+    selectedUser,
     apis,
+    selectedName,
+    selectedExperience,
     versionControl,
     testingTools,
     setUsers,
@@ -26,9 +30,10 @@ const useApi = () => {
     setVersionControl,
     setTestingTools,
     setName,
+    setIsFormValid,
   } = useApiContext();
 
-  const clear = () => {
+  const clear = useCallback(() => {
     setExperience([]);
     setSkills([]);
     setApis([]);
@@ -36,7 +41,15 @@ const useApi = () => {
     setTestingTools([]);
     setSelectUser({});
     setName("");
-  };
+  }, [
+    setApis,
+    setExperience,
+    setName,
+    setSelectUser,
+    setSkills,
+    setTestingTools,
+    setVersionControl,
+  ]);
 
   const handleClickOpen = useCallback(
     (user) => {
@@ -130,6 +143,66 @@ const useApi = () => {
     }
   };
 
+  const handleEdit = useCallback(async () => {
+    const editedUser = {
+      id: selectedUser?.id,
+      name: selectedName,
+      experience: selectedExperience,
+      skills,
+      apis,
+      versionControl,
+      testingTools,
+    };
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      await editCandidate(editedUser);
+      setUsers((prevUsers) =>
+        prevUsers?.map((user) =>
+          user?.id === editedUser?.id ? editedUser : user
+        )
+      );
+
+      clear();
+      handleClose();
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  }, [
+    selectedUser?.id,
+    selectedName,
+    selectedExperience,
+    skills,
+    apis,
+    versionControl,
+    testingTools,
+    setLoading,
+    setError,
+    setUsers,
+    clear,
+    handleClose,
+  ]);
+
+  const handleFormValidation = () => {
+    const isNameValid = name !== "";
+    const isExperienceValid = experience !== "";
+    setIsFormValid(isNameValid && isExperienceValid);
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+    handleFormValidation();
+  };
+
+  const handleExperienceChange = (e) => {
+    setExperience(e.target.value);
+    handleFormValidation();
+  };
+
   return {
     handleSubmit,
     handleDelete,
@@ -137,6 +210,9 @@ const useApi = () => {
     handleClickOpen,
     handleCheckboxChange,
     allCandidates,
+    handleEdit,
+    handleNameChange,
+    handleExperienceChange,
   };
 };
 

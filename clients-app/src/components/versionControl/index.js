@@ -9,10 +9,7 @@ import {
 import useApi from "../../hooks/useApi";
 import { useApiContext } from "../../context/context";
 
-export default function VersionControl({
-  initialVersionControl = [],
-  disabled = false,
-}) {
+export default function VersionControl({ initialVersionControl = [], isEdit }) {
   const { handleCheckboxChange } = useApi();
   const { versionControl, setVersionControl } = useApiContext();
 
@@ -23,13 +20,23 @@ export default function VersionControl({
   }, [initialVersionControl, setVersionControl]);
 
   const handleChange = (event) => {
-    if (!disabled) {
+    const { value, checked } = event.target;
+
+    if (!isEdit) {
       handleCheckboxChange(event, setVersionControl, versionControl);
+    } else {
+      if (checked) {
+        setVersionControl((prev) => [...prev, value]);
+      } else {
+        setVersionControl((prev) =>
+          prev.filter((version) => version !== value)
+        );
+      }
     }
   };
 
   return (
-    <FormControl component="fieldset" margin="normal" disabled={disabled}>
+    <FormControl component="fieldset" margin="normal">
       <FormLabel component="legend" color="secondary">
         Controle de Versão
       </FormLabel>
@@ -40,10 +47,10 @@ export default function VersionControl({
             key={version}
             control={
               <Checkbox
+                color="secondary"
                 value={version}
                 checked={versionControl.includes(version)}
                 onChange={handleChange}
-                disabled={disabled}
               />
             }
             label={version}

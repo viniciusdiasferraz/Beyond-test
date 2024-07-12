@@ -9,7 +9,7 @@ import {
 import useApi from "../../hooks/useApi";
 import { useApiContext } from "../../context/context";
 
-export default function APIsCandidate({ initialAPIs = [], disabled = false }) {
+export default function APIsCandidate({ initialAPIs = [], isEdit }) {
   const { handleCheckboxChange } = useApi();
   const { apis, setApis } = useApiContext();
 
@@ -20,13 +20,21 @@ export default function APIsCandidate({ initialAPIs = [], disabled = false }) {
   }, [initialAPIs, setApis]);
 
   const handleChange = (event) => {
-    if (!disabled) {
+    const { value, checked } = event.target;
+
+    if (!isEdit) {
       handleCheckboxChange(event, setApis, apis);
+    } else {
+      if (checked) {
+        setApis((prev) => [...prev, value]);
+      } else {
+        setApis((prev) => prev.filter((APIs) => APIs !== value));
+      }
     }
   };
 
   return (
-    <FormControl component="fieldset" margin="normal" disabled={disabled}>
+    <FormControl component="fieldset" margin="normal">
       <FormLabel component="legend" color="secondary">
         APIs
       </FormLabel>
@@ -41,7 +49,6 @@ export default function APIsCandidate({ initialAPIs = [], disabled = false }) {
                   value={api}
                   checked={apis.includes(api)}
                   onChange={handleChange}
-                  disabled={disabled}
                 />
               }
               label={api}

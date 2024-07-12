@@ -33,3 +33,10 @@ export const deleteCandidate = (candidate) => {
     body: JSON.stringify(candidate),
   });
 };
+
+export const editCandidate = (candidate) => {
+  return apiFetch("/edit", {
+    method: "PATCH",
+    body: JSON.stringify(candidate),
+  });
+};

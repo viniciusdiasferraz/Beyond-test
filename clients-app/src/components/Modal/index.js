@@ -16,7 +16,7 @@ import VersionControl from "../versionControl/index";
 import TestingTools from "../TestingTools/index";
 
 export default function Modal() {
-  const { handleDelete, handleClose } = useApi();
+  const { handleDelete, handleClose, handleEdit } = useApi();
   const {
     selectUser,
     open,
@@ -51,7 +51,7 @@ export default function Modal() {
 
   return (
     <Dialog open={open} onClose={handleClose} fullScreen>
-      <DialogTitle>Vizualisar Candidato: {selectedName}</DialogTitle>
+      <DialogTitle>Vizualisar Candidato: {selectUser.name}</DialogTitle>
       <DialogContent>
         <Box>
           <TextField
@@ -64,7 +64,6 @@ export default function Modal() {
             InputLabelProps={{
               shrink: true,
             }}
-            disabled
           />
           <TextField
             id="experience"
@@ -76,18 +75,17 @@ export default function Modal() {
             InputLabelProps={{
               shrink: true,
             }}
-            disabled
           />
           <Box sx={{ display: "flex", gap: "3rem" }}>
-            <Skills initialSkills={selectUser.skills} disabled />{" "}
-            <APIsCandidate initialAPIs={selectUser.apis} disabled />{" "}
+            <Skills initialSkills={selectUser.skills} isEdit />
+            <APIsCandidate initialAPIs={selectUser.apis} isEdit />
             <VersionControl
               initialVersionControl={selectUser.versionControl}
-              disabled
+              isEdit
             />
             <TestingTools
               initialTestingTools={selectUser.testingTools}
-              disabled
+              isEdit
             />
           </Box>
         </Box>
@@ -95,6 +93,9 @@ export default function Modal() {
       <DialogActions>
         <Button onClick={handleClose} color="secondary">
           Fechar
+        </Button>
+        <Button onClick={handleEdit} color="secondary">
+          Editar Candidato
         </Button>
         <Button onClick={() => handleDelete(selectUser)} color="secondary">
           Excluir Candidato

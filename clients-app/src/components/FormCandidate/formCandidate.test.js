@@ -12,6 +12,7 @@ describe("FormCandidate Component", () => {
     useApiContext.mockReturnValue({
       name: "",
       experience: "",
+      isFormValid: false,
       setName: jest.fn(),
       setExperience: jest.fn(),
       skills: [],
@@ -26,26 +27,35 @@ describe("FormCandidate Component", () => {
 
     useApi.mockReturnValue({
       handleSubmit: jest.fn(),
-      handleCheckboxChange: jest.fn(),
+      handleNameChange: jest.fn(),
+      handleExperienceChange: jest.fn(),
     });
   });
 
   it("renders with form fields and submit button", () => {
     render(<FormCandidate />);
 
-    expect(screen.getByLabelText("Nome")).toBeInTheDocument();
-    expect(screen.getByLabelText("Experiência (em anos)")).toBeInTheDocument();
-    expect(screen.getByText("Adicionar")).toBeInTheDocument();
+    expect(screen.getByLabelText(/Nome/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Experiência \(em anos\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Adicionar/i)).toBeInTheDocument();
   });
 
   it("updates name and experience fields correctly", () => {
-    const setName = jest.fn();
-    const setExperience = jest.fn();
+    const handleNameChange = jest.fn();
+    const handleExperienceChange = jest.fn();
+
+    useApi.mockReturnValue({
+      handleSubmit: jest.fn(),
+      handleNameChange: handleNameChange,
+      handleExperienceChange: handleExperienceChange,
+    });
+
     useApiContext.mockReturnValue({
       name: "",
       experience: "",
-      setName: setName,
-      setExperience: setExperience,
+      isFormValid: false,
+      setName: jest.fn(),
+      setExperience: jest.fn(),
       skills: [],
       setSkills: jest.fn(),
       apis: [],
@@ -58,27 +68,44 @@ describe("FormCandidate Component", () => {
 
     render(<FormCandidate />);
 
-    fireEvent.change(screen.getByLabelText("Nome"), {
+    fireEvent.change(screen.getByLabelText(/Nome/i), {
       target: { value: "John Doe" },
     });
-    fireEvent.change(screen.getByLabelText("Experiência (em anos)"), {
+    fireEvent.change(screen.getByLabelText(/Experiência \(em anos\)/i), {
       target: { value: "5" },
     });
 
-    expect(setName).toHaveBeenCalledWith("John Doe");
-    expect(setExperience).toHaveBeenCalledWith("5");
+    expect(handleNameChange).toHaveBeenCalled();
+    expect(handleExperienceChange).toHaveBeenCalled();
   });
 
   it("submits the form when button is clicked", () => {
     const handleSubmit = jest.fn();
     useApi.mockReturnValue({
       handleSubmit: handleSubmit,
-      handleCheckboxChange: jest.fn(),
+      handleNameChange: jest.fn(),
+      handleExperienceChange: jest.fn(),
+    });
+
+    useApiContext.mockReturnValue({
+      name: "John Doe",
+      experience: "5",
+      isFormValid: true,
+      setName: jest.fn(),
+      setExperience: jest.fn(),
+      skills: [],
+      setSkills: jest.fn(),
+      apis: [],
+      setApis: jest.fn(),
+      versionControl: [],
+      setVersionControl: jest.fn(),
+      testingTools: [],
+      setTestingTools: jest.fn(),
     });
 
     render(<FormCandidate />);
 
-    fireEvent.click(screen.getByText("Adicionar"));
+    fireEvent.click(screen.getByText(/Adicionar/i));
 
     expect(handleSubmit).toHaveBeenCalled();
   });

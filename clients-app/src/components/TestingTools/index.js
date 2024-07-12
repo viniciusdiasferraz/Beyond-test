@@ -9,10 +9,7 @@ import {
 import useApi from "../../hooks/useApi";
 import { useApiContext } from "../../context/context";
 
-export default function TestingTools({
-  initialTestingTools = [],
-  disabled = false,
-}) {
+export default function TestingTools({ initialTestingTools = [], isEdit }) {
   const { handleCheckboxChange } = useApi();
   const { testingTools, setTestingTools } = useApiContext();
 
@@ -23,13 +20,21 @@ export default function TestingTools({
   }, [initialTestingTools, setTestingTools]);
 
   const handleChange = (event) => {
-    if (!disabled) {
+    const { value, checked } = event.target;
+
+    if (!isEdit) {
       handleCheckboxChange(event, setTestingTools, testingTools);
+    } else {
+      if (checked) {
+        setTestingTools((prev) => [...prev, value]);
+      } else {
+        setTestingTools((prev) => prev.filter((testing) => testing !== value));
+      }
     }
   };
 
   return (
-    <FormControl component="fieldset" margin="normal" disabled={disabled}>
+    <FormControl component="fieldset" margin="normal">
       <FormLabel component="legend" color="secondary">
         Ferramentas de Teste
       </FormLabel>
@@ -51,7 +56,6 @@ export default function TestingTools({
                 value={tool}
                 checked={testingTools.includes(tool)}
                 onChange={handleChange}
-                disabled={disabled}
               />
             }
             label={tool}

@@ -53,20 +53,4 @@ describe("APIsCandidate Component", () => {
 
     expect(grpcCheckbox.checked).toBe(true);
   });
-
-  test("disables checkboxes when disabled prop is true", () => {
-    const initialAPIs = ["RESTful", "GraphQL"];
-
-    render(
-      <ApiProvider>
-        <APIsCandidate initialAPIs={initialAPIs} disabled={true} />
-      </ApiProvider>
-    );
-
-    const restfulCheckbox = screen.getByLabelText("RESTful");
-    const graphqlCheckbox = screen.getByLabelText("GraphQL");
-
-    expect(restfulCheckbox.disabled).toBe(true);
-    expect(graphqlCheckbox.disabled).toBe(true);
-  });
 });

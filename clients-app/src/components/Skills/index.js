@@ -9,7 +9,7 @@ import {
 import useApi from "../../hooks/useApi";
 import { useApiContext } from "../../context/context";
 
-export default function Skills({ initialSkills = [], disabled = false }) {
+export default function Skills({ initialSkills = [], isEdit }) {
   const { handleCheckboxChange } = useApi();
   const { skills, setSkills } = useApiContext();
 
@@ -20,34 +20,48 @@ export default function Skills({ initialSkills = [], disabled = false }) {
   }, [initialSkills, setSkills]);
 
   const handleChange = (event) => {
-    if (!disabled) {
+    const { value, checked } = event.target;
+
+    if (!isEdit) {
       handleCheckboxChange(event, setSkills, skills);
+    } else {
+      if (checked) {
+        setSkills((prev) => [...prev, value]);
+      } else {
+        setSkills((prev) => prev.filter((skill) => skill !== value));
+      }
     }
   };
 
   return (
-    <FormControl component="fieldset" margin="normal" disabled={disabled}>
+    <FormControl component="fieldset" margin="normal">
       <FormLabel component="legend" color="secondary">
         Skills
       </FormLabel>
       <FormGroup>
-        {["React", "Typescript", "CSS", "Javascript", "HTML", "Vue"].map(
-          (skill) => (
-            <FormControlLabel
-              key={skill}
-              control={
-                <Checkbox
-                  color="secondary"
-                  value={skill}
-                  checked={skills?.includes(skill)}
-                  onChange={handleChange}
-                  disabled={disabled}
-                />
-              }
-              label={skill}
-            />
-          )
-        )}
+        {[
+          "React",
+          "Typescript",
+          "CSS",
+          "Javascript",
+          "HTML",
+          "Vue",
+          "Angular",
+        ].map((skill) => (
+          <FormControlLabel
+            key={skill}
+            control={
+              <Checkbox
+                color="secondary"
+                value={skill}
+                checked={skills?.includes(skill)}
+                onChange={handleChange}
+                // disabled={disabled}
+              />
+            }
+            label={skill}
+          />
+        ))}
       </FormGroup>
     </FormControl>
   );

@@ -8,7 +8,7 @@ Clone o repositório:
 
 bash
 Copiar código
-git clone https://github.com/viniciusdiasferraz/Beyond-test
+git clone https://github.com/seu-usuario/seu-projeto.git
 cd seu-projeto
 Instale as dependências:
 
